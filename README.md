@@ -1,8 +1,8 @@
-# Diffbot API CoffeeScript client
+# Diffbot API for CoffeeScript
 
 ## Preface
 
-Through this Readme I use `diffbot` as a Client name. This however might be an issue in the future, since there is already a third-party gem with the same name. 
+This brief documentation doesn't include full API methods and parameters. Full library API documentation could be found in `doc` folder.
 
 ## Installation
 
@@ -15,8 +15,8 @@ Library can be installed from npm
 Obtaining CoffeeScript Diffbot client is simple as that:
 
 ```coffeescript
-diffbot = require 'diffbot-coffee'
-client = diffbot.Client '<your_key>'
+{Client} = require 'diffbot-coffee'
+client = new Client '<your_key>'
 ```
 
 ## Usage
@@ -27,8 +27,11 @@ Assume that we have our `client` configured. In order to use Automatic Article A
 
 ```coffeescript
 article = client.article 'http://someurl.com', ['title']
-console.log article.url
-console.log article.relative_url
+```
+
+After instantiation we can use our client object to retrieve information
+
+```coffeescript
 article.load (error, result) ->
   if error?
     console.error error
@@ -63,6 +66,8 @@ article.load (error, result) ->
     console.log result.type
 ```
 
+Similar syntax is available for all objects.
+
 ### Page Classifier API
 
 Calling Page Classifier API is also pretty simple:
@@ -78,19 +83,49 @@ pageclassifier.load (error, result) ->
 
 ### Crawlbot API
 
-Calling Crawlbot API is similar to calling Article API. One thing worth to notice is that Crawlbot API Version 2 requires `apiUrl` which will be used to perform crawling. Ruby client makes possible to avoid using urls here. Instead we will use Ruby API described above:
+Calling Crawlbot API is similar to calling Article API. One thing worth to notice is that Crawlbot API Version 2 requires `apiUrl` which will be used to perform crawling. Library implementation makes possible to avoid using urls here. Instead we will use Article API:
 
 ```coffeescript
 crawler = client.crawlbot 'my-bot', ['http://someurl.com', 'http://foo.com'], client.article('', ['title']).url
+crawler.create (error, result) ->
+  if !error?
+    console.log result
 ```
 
-`client.article` returns object of type `Diffbot::APIClient::Article` which contains all data necessary to build required `apiUrl`. Once we have `crawler` object we can perform various operations on it:
+or alternatively we can set optional parameters as object
 
 ```coffeescript
-crawler.create
+crawler = client.crawlbot 'my-bot',
+                seeds: ['http://someurl.com', 'http://foo.com']
+                apiUrl: client.article('', ['title']).url
+
+crawler.create (error, result) ->
+  if !error?
+    console.log result
+```
+
+Crawler object supports next methods
+
+```coffeescript
 crawler.pause
 crawler.restart
 crawler.delete
 crawler.data
 crawler.status
+```
+
+Usage is pretty simple
+
+or alternatively we can set optional parameters as object
+
+```coffeescript
+crawler = client.crawlbot 'my-bot',
+                seeds: ['http://someurl.com', 'http://foo.com']
+                apiUrl: client.article('', ['title']).url
+
+crawler.create (error, result) =>
+  if !error?
+    crawler.delete (error, result) =>
+      if !error? and result
+        console.log 'Crawler successfully deleted'
 ```

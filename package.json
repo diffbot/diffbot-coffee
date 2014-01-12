@@ -4,7 +4,8 @@
   "description": "Diffbot API Wrapper",
   "version": "0.1.0",
   "repository": {
-    "url": ""
+    "type": "git",
+    "url": "https://github.com/rragimoff/diffbot-coffee.git"
   },
   "main": "./lib/api",
   "dependencies": {

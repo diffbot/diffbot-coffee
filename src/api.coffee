@@ -50,6 +50,7 @@ class Job
 		data['token'] = @api.token
 		return @api.apiHost + @api_method + '?' + querystring.stringify(@data)
 
+	# @property [String] Relative URL to current object
 	get relative_url: () ->
 		data = @data
 		data['token'] = @api.token
@@ -71,17 +72,10 @@ class Job
 		else
 			return false
 
+
 # Article class provides access to [Article API](http://www.diffbot.com/dev/docs/article/)
 #
 # The Article API is used to extract clean article text from news article, blog post and similar text-heavy web pages.
-#
-# @example Basic usage
-#   api = new Client '81823ff5c8132920a424405fed92745e'
-#   article = api.article 'http://diffbot.com', ['*'], 10000
-#   article.load (result) ->
-#     console.log article.url
-#     console.log article.job
-#     console.log article.result
 #
 class Article extends Job
 	# Constructor
@@ -115,14 +109,6 @@ class Article extends Job
 # Frontpage class provides access to [Frontpage API](http://www.diffbot.com/dev/docs/frontpage/)
 #
 # The Frontpage API takes in a multifaceted "homepage" and returns individual page elements.
-#
-# @example Basic usage
-#   api = new Client '81823ff5c8132920a424405fed92745e'
-#   frontpage = new Frontpage api, 'http://diffbot.com', 10000, 'json', 1
-#   frontpage.load (result) ->
-#     console.log frontpage.url
-#     console.log frontpage.job
-#     console.log frontpage.result
 #
 class Frontpage extends Job
 	# Constructor
@@ -160,14 +146,6 @@ class Frontpage extends Job
 #
 # The Image API analyzes a web page and returns its primary image(s).
 #
-# @example Basic usage
-#   api = new Client '81823ff5c8132920a424405fed92745e'
-#   image = new Image api, 'http://diffbot.com', ['*'], 10000
-#   image.load (result) ->
-#     console.log image.url
-#     console.log image.job
-#     console.log image.result
-#
 class Image extends Job
 	# Constructor
 	#
@@ -199,19 +177,11 @@ class Image extends Job
 # Product class provides access to [Product API](http://www.diffbot.com/dev/docs/product/)
 #
 # The Product API analyzes a shopping or e-commerce product page and returns information on the product.
-# 
-# @example Basic usage
-#   api = new Client '81823ff5c8132920a424405fed92745e'
-#   product = new Product api, 'http://diffbot.com', ['*'], 10000
-#   product.load (result) ->
-#     console.log image.url
-#     console.log image.job
-#     console.log image.result
 #
 class Product extends Job
 	# Constructor
 	#
-	# @param api [Object] Client instalce
+	# @param api [Object] Client instance
 	# @param url [String] Product URL to process
 	# @param fields [Array] Used to control which fields are returned by the API (optional)
 	# @param timeout [String] Set a value in milliseconds to terminate the response. By default the Product API has no timeout. (optional)
@@ -241,18 +211,11 @@ class Product extends Job
 # PageClassifier class provides access to [Page Classifier API](http://www.diffbot.com/dev/docs/analyze/)
 #
 # The Page Classifier API takes any web link and automatically determines what type of page it is.
-# 
-# @example Basic usage
-#   api = new Client '81823ff5c8132920a424405fed92745e'
-#   pageClassifier = new PageClassifier api, 'http://diffbot.com', 'article', ['*'], 1
-#   pageClassifier.load (result) ->
-#     console.log image.url
-#     console.log image.job
-#     console.log image.result
 #
 class PageClassifier extends Job
 	# Constructor
 	#
+	# @param api [Object] Client instance
 	# @param url [String] Product URL to process
 	# @param mode [String] By default the Page Classifier API will fully extract pages that match an existing Diffbot Automatic API. Set mode to a specific page-type (e.g., `article`) to extract content only from that particular page-type. All others will simply return the page classification information.
 	# @param fields [Array] Used to control which fields are returned by the API (optional)
@@ -285,19 +248,13 @@ class PageClassifier extends Job
 #
 # The Custom API Toolkit allows you to override the default content returned by Diffbot APIs.
 #
-# @example Basic usage
-#   api = new Client '81823ff5c8132920a424405fed92745e'
-#   custom = new Custom api, 'myFunction', http://diffbot.com', 10000
-#   custom.load (result) ->
-#     console.log image.url
-#     console.log image.job
-#     console.log image.result
 class Custom extends Job
 	get = (props) => @::__defineGetter__ name, getter for name, getter of props
 	set = (props) => @::__defineSetter__ name, setter for name, setter of props
 
 	# Constructor
 	#
+	# @param api [Object] Client instance
 	# @param apiMethod [String] Name of custom API you've created in the [Custom API Toolkit](http://www.diffbot.com/dev/customize)
 	# @param url [String] URL to process	
 	# @param timeout [String] Specify a value in milliseconds (e.g., 15000) to override the default API timeout of 5000ms.
@@ -337,6 +294,12 @@ class Custom extends Job
 						error: error
 					callback error, result
 
+	# @property [String] Relative URL to call current object
+	get relative_url: () ->
+		data = @data
+		data['token'] = @api.token
+		return '/api/' + @api_method + '?' + querystring.stringify(data)
+
 	# @property [String] Full URL to call current object
 	get url: () ->
 		data = @data
@@ -362,22 +325,11 @@ class Custom extends Job
 # Bulk class provides access to [Bulk API](http://www.diffbot.com/dev/docs/bulk/)
 #
 # The Bulk API is built atop [Crawlbot](http://www.diffbot.com/dev/crawlbot), and allows you to submit a large number of URLs for asynchronous processing by a Diffbot API.
-#
-# @example Basic usage
-#   api = new Client '81823ff5c8132920a424405fed92745e'
-#   bulk = new Bulk api, 'myBulk', ['http://diffbot.com', 'http://news.ycombinator.com'], new Article(api, '').url, 'user@domain.com'
-#   bulk.create (result) ->
-#     console.log result
-#     bulk.pause (result) ->
-#       console.log result
-#       bulk.resume (result) ->
-#         console.log result
-#         bulk.delete (result) ->
-#           console.log result
 #   
 class Bulk
 	# Constructs new bulk job
 	#
+	# @param api [Object] Client instance
 	# @param name [String] Job name. This should be a unique identifier and will be used to modify your bulk job and retrieve its output.
 	# @param urls [Array<String>] Array of URLs to process. (optional)
 	# @param apiUrl [String] The full Diffbot API to be used for each URL. For instance, to process each URL via the article API, supply http://api.diffbot.com/v2/article. You may also include API parameters, e.g. http://api.diffbot.com/v2/article?fields=meta,tags. (optional)
@@ -420,6 +372,14 @@ class Bulk
 	#
 	# @param callback [Function] Callback function (optional)
 	#
+	# @example
+	#   bulk = client.bulk 'my-bulk'
+	#   bulk.create (error, result) ->
+	#     if error?
+	#       console.error error
+	#     else
+	#       console.log result
+	#
 	create: (callback)	 =>
 		@api.request 'post', @api_method, @data, (error, result) =>
 			if callback?
@@ -428,6 +388,14 @@ class Bulk
 	# Pauses bulk job
 	#
 	# @param callback [Function] Callback function (optional)
+	#
+	# @example
+	#   bulk = client.bulk 'my-bulk'
+	#   bulk.pause (error, result) ->
+	#     if error?
+	#       console.error error
+	#     else
+	#       console.log result
 	#
 	pause: (callback) =>
 		@api.request @http_method, @api_method, { name: @name, pause: 1 }, (error, result) =>
@@ -438,6 +406,14 @@ class Bulk
 	#
 	# @param callback [Function] Callback function (optional)
 	#
+	# @example
+	#   bulk = client.bulk 'my-bulk'
+	#   bulk.resume (error, result) ->
+	#     if error?
+	#       console.error error
+	#     else
+	#       console.log result
+	#
 	resume: (callback) =>
 		@api.request @http_method, @api_method, { name: @name, pause: 0 }, (error, result) =>
 			if callback?
@@ -447,6 +423,14 @@ class Bulk
 	#
 	# @param callback [Function] Callback function (optional)
 	#
+	# @example
+	#   bulk = client.bulk 'my-bulk'
+	#   bulk.delete (error, result) ->
+	#     if error?
+	#       console.error error
+	#     else
+	#       console.log result
+	#
 	delete: (callback) =>
 		@api.request @http_method, @api_method, { name: @name, 'delete': 1 }, (error, result) =>
 			if callback?
@@ -455,6 +439,14 @@ class Bulk
 	# Returns bulk job data
 	#
 	# @param callback [Function] Callback function (optional)
+	#
+	# @example
+	#   bulk = client.bulk 'my-bulk'
+	#   bulk.data (error, result) ->
+	#     if error?
+	#       console.error error
+	#     else
+	#       console.log result.data
 	#
 	data: (callback) =>
 		urls = []
@@ -482,6 +474,14 @@ class Bulk
 	#
 	# @param callback [Function] Callback function (optional)
 	#
+	# @example
+	#   bulk = client.bulk 'my-bulk'
+	#   bulk.status (error, result) ->
+	#     if error?
+	#       console.error error
+	#     else
+	#       console.log result
+	#
 	status: (callback) =>
 		@request @http_method, @api_method, { name: @name }, (result) =>
 			if callback?
@@ -491,70 +491,27 @@ class Bulk
 #
 # The Crawlbot API allows you to programmatically manage [Crawlbot](http://www.diffbot.com/dev/crawl/v2) crawls and retrieve output.
 #
-# @example Basic usage
-#   api = new Client '81823ff5c8132920a424405fed92745e'
-#   crawl = new Crawlbot api, 'myBulk', ['http://diffbot.com'], new Article(api, '').url
-#   crawl.create (result) ->
-#     console.log result
-#     crawl.pause (result) ->
-#       console.log result
-#       crawl.resume (result) ->
-#         console.log result
-#         crawl.delete (result) ->
-#           console.log result
-#
 class Crawlbot
 	# Constructs new Crawlbot
 	#
-	# @overload create(params, callback)
-	#   Creates new crawlbot from parameters set
-	#   @param api [Client] Client instance
-	#   @param name [String] New crawlbot name
-	#   @param options [Object] Parameters
-	#   @option options [Array<String>] seeds Seed URL(s). Must be URL encoded. By default Crawlbot will spider subdomains (e.g., a seed URL of "http://www.diffbot.com" will include URLs at "http://blog.diffbot.com").
-	#   @option options [String] apiUrl Full Diffbot API URL through which to process pages. E.g., `http://api.diffbot.com/v2/article` to process matching links via the Article API.
-	#   @option options [Array<String>] urlCrawlPattern Array of strings to limit pages crawled to those whose URLs contain any of the content strings. You can use the exclamation point to specify a negative string, e.g. `!product` to exclude URLs containing the string "product." (optional)
-	#   @option options [String] urlCrawlRegEx Specify a regular expression to limit pages crawled to those URLs that match your expression. This will override any `urlCrawlPattern` value. (optional)
-	#   @option options [Array<String>] urlProcessPattern Array of strings to limit pages processed to those whose URLs contain any of the content strings. You can use the exclamation point to specify a negative string, e.g. !/category to exclude URLs containing the string "/category." (optional)
-	#   @option options [String] urlProcessRegEx Specify a regular expression to limit pages processed to those URLs that match your expression. This will override any urlProcessPattern value. (optional)
-	#   @option options [Array<String>] pageProcessPattern Array of strings to limit pages processed to those whose HTML contains any of the content strings. (optional)
-	#   @option options [Number] maxToCrawl Specify max pages to spider. (optional)
-	#   @option options [Number] maxToProcess Specify max pages to process through Diffbot APIs. Default: 10,000. (optional)
-	#   @option options [Number] @param restrictDomain By default crawls will restrict to subdomains within the seed URL domain. Specify `restrictDomain=0` to follow all links regardless of domain. (optional)
-	#   @option options [String] notifyEmail Send a message to this email address when the crawl hits the `maxToCrawl` or `maxToProcess` limit, or when the crawl completes. (optional)
-	#   @option options [String] notifyWebHook Pass a URL to be notified when the crawl hits the `maxToCrawl` or `maxToProcess` limit, or when the crawl completes. You will receive a POST with `X-Crawl-Name` and `X-Crawl-Status` in the headers, and the full JSON response in the POST body. (optional)
-	#   @option options [Number] crawlDelay Wait this many seconds between each URL crawled from a single IP address. Specify the number of seconds as an integer or floating-point number (e.g., 0.25). (optional)
-	#   @option options [Number] repeat Specify the number of days as a floating-point (e.g. `7.0`) to repeat this crawl. By default crawls will not be repeated. (optional)
-	#   @option options [Number] onlyProcessIfNew By default repeat crawls will only process new (previously unprocessed) pages. Set to 0 (`onlyProcessIfNew=0`) to process all content on repeat crawls. (optional)
-	#   @option options [Number] maxRounds Specify the maximum number of crawl repeats. Use `maxRounds=-1` to continually repeat. (optional)
-	#
-	# @overload create (seeds, apiUrl, urlCrawlPattern, urlCrawlRegEx, urlProcessPattern, urlProcessRegEx, pageProcessPattern, maxToCrawl, maxToProcess, restrictDomain, notifyEmail, notifyWebHook, crawlDelay, repeat, onlyProcessIfNew, maxRounds, callback)
-	#   Creates new crawlbot from passed parameters
-	#   @param seeds [Array] Seed URL(s). Must be URL encoded. By default Crawlbot will spider subdomains (e.g., a seed URL of "http://www.diffbot.com" will include URLs at "http://blog.diffbot.com").
-	#   @param apiUrl [String] Full Diffbot API URL through which to process pages. E.g., `http://api.diffbot.com/v2/article` to process matching links via the Article API.
-	#   @param urlCrawlPattern [Array] Array of strings to limit pages crawled to those whose URLs contain any of the content strings. You can use the exclamation point to specify a negative string, e.g. `!product` to exclude URLs containing the string "product." (optional)
-	#   @param urlCrawlRegEx [String] Specify a regular expression to limit pages crawled to those URLs that match your expression. This will override any `urlCrawlPattern` value. (optional)
-	#   @param urlProcessPattern [Array] Array of strings to limit pages processed to those whose URLs contain any of the content strings. You can use the exclamation point to specify a negative string, e.g. !/category to exclude URLs containing the string "/category." (optional)
-	#   @param urlProcessRegEx [String] Specify a regular expression to limit pages processed to those URLs that match your expression. This will override any urlProcessPattern value. (optional)
-	#   @param pageProcessPattern [Array] Array of strings to limit pages processed to those whose HTML contains any of the content strings. (optional)
-	#   @param maxToCrawl [Number] Specify max pages to spider. (optional)
-	#   @param maxToProcess [Number] Specify max pages to process through Diffbot APIs. Default: 10,000. (optional)
-	#   @param restrictDomain [Number] By default crawls will restrict to subdomains within the seed URL domain. Specify `restrictDomain=0` to follow all links regardless of domain. (optional)
-	#   @param notifyEmail [String] Send a message to this email address when the crawl hits the `maxToCrawl` or `maxToProcess` limit, or when the crawl completes. (optional)
-	#   @param notifyWebHook [String] Pass a URL to be notified when the crawl hits the `maxToCrawl` or `maxToProcess` limit, or when the crawl completes. You will receive a POST with `X-Crawl-Name` and `X-Crawl-Status` in the headers, and the full JSON response in the POST body. (optional)
-	#   @param crawlDelay [Number] Wait this many seconds between each URL crawled from a single IP address. Specify the number of seconds as an integer or floating-point number (e.g., 0.25). (optional)
-	#   @param repeat [Number] Specify the number of days as a floating-point (e.g. `7.0`) to repeat this crawl. By default crawls will not be repeated. (optional)
-	#   @param onlyProcessIfNew [Number] By default repeat crawls will only process new (previously unprocessed) pages. Set to 0 (`onlyProcessIfNew=0`) to process all content on repeat crawls. (optional)
-	#   @param maxRounds [Number] Specify the maximum number of crawl repeats. Use `maxRounds=-1` to continually repeat. (optional)
-	#
-	# @example Basic call
-	#   api = new Client 'a1b2c3d4e5f6'
-	#   bot = new Crawlbot api, 'fooBot', ['http://diffbot.com', 'http://news.ycombinator.com'], new Article(api, '').url
-	#   bot.create (result) ->
-	#     console.log result
-	#     bot.pause (result) ->
-	#       console.log result
-	#       bot.resume()
+	# @param api [Object] Client instance
+	# @param name [String] crawlbot unique name
+	# @param seeds [Array] Seed URL(s). Must be URL encoded. By default Crawlbot will spider subdomains (e.g., a seed URL of "http://www.diffbot.com" will include URLs at "http://blog.diffbot.com") (optional)
+	# @param apiUrl [String] Full Diffbot API URL through which to process pages. E.g., `http://api.diffbot.com/v2/article` to process matching links via the Article API (optional)
+	# @param urlCrawlPattern [Array] Array of strings to limit pages crawled to those whose URLs contain any of the content strings. You can use the exclamation point to specify a negative string, e.g. `!product` to exclude URLs containing the string "product." (optional)
+	# @param urlCrawlRegEx [String] Specify a regular expression to limit pages crawled to those URLs that match your expression. This will override any `urlCrawlPattern` value. (optional)
+	# @param urlProcessPattern [Array] Array of strings to limit pages processed to those whose URLs contain any of the content strings. You can use the exclamation point to specify a negative string, e.g. !/category to exclude URLs containing the string "/category." (optional)
+	# @param urlProcessRegEx [String] Specify a regular expression to limit pages processed to those URLs that match your expression. This will override any urlProcessPattern value. (optional)
+	# @param pageProcessPattern [Array] Array of strings to limit pages processed to those whose HTML contains any of the content strings. (optional)
+	# @param maxToCrawl [Number] Specify max pages to spider. (optional)
+	# @param maxToProcess [Number] Specify max pages to process through Diffbot APIs. Default: 10,000. (optional)
+	# @param restrictDomain [Number] By default crawls will restrict to subdomains within the seed URL domain. Specify `restrictDomain=0` to follow all links regardless of domain. (optional)
+	# @param notifyEmail [String] Send a message to this email address when the crawl hits the `maxToCrawl` or `maxToProcess` limit, or when the crawl completes. (optional)
+	# @param notifyWebHook [String] Pass a URL to be notified when the crawl hits the `maxToCrawl` or `maxToProcess` limit, or when the crawl completes. You will receive a POST with `X-Crawl-Name` and `X-Crawl-Status` in the headers, and the full JSON response in the POST body. (optional)
+	# @param crawlDelay [Number] Wait this many seconds between each URL crawled from a single IP address. Specify the number of seconds as an integer or floating-point number (e.g., 0.25). (optional)
+	# @param repeat [Number] Specify the number of days as a floating-point (e.g. `7.0`) to repeat this crawl. By default crawls will not be repeated. (optional)
+	# @param onlyProcessIfNew [Number] By default repeat crawls will only process new (previously unprocessed) pages. Set to 0 (`onlyProcessIfNew=0`) to process all content on repeat crawls. (optional)
+	# @param maxRounds [Number] Specify the maximum number of crawl repeats. Use `maxRounds=-1` to continually repeat. (optional)
 	#
 	constructor: (@api, @name, seeds, apiUrl, urlCrawlPattern, urlCrawlRegEx, urlProcessPattern, urlProcessRegEx, pageProcessPattern, maxToCrawl, maxToProcess, restrictDomain, notifyEmail, notifyWebHook, crawlDelay, repeat, onlyProcessIfNew, maxRounds) ->
 		@http_method = 'get'
@@ -622,6 +579,26 @@ class Crawlbot
 	#
 	# @param callback [Function] Callback function (optional)
 	#
+	# @example Basic usage
+	#   crawler = client.crawlbot 'my-crawler', ['http://domain.com', 'http://foo.com'], client.article('', ['title']).url
+	#   crawler.create (error, result) ->
+	#     if error?
+	#       console.error error
+	#     else
+	#       console.log result
+	#
+	# @example Optional parameters
+	#   crawler = client.crawlbot 'my-crawler', 
+	#     seeds: ['http://domain.com', 'http://foo.com']
+	#     apiUrl: client.article('', ['title']).url
+	#     maxToCrawl: 100
+	#
+	#   crawler.create (error, result) ->
+	#     if error?
+	#       console.error error
+	#     else
+	#       console.log result
+	#
 	create: (callback) =>
 		@api.request @http_method, @api_method, @data, (error, result) =>
 			if callback?
@@ -630,6 +607,14 @@ class Crawlbot
 	# Pauses crawlbot job
 	#
 	# @param callback [Function] Callback function (optional)
+	#
+	# @example Basic usage
+	#   crawler = client.crawlbot 'my-crawler'
+	#   crawler.pause (error, result) ->
+	#     if error?
+	#       console.error error
+	#     else
+	#       console.log result
 	#
 	pause: (callback) =>
 		@api.request @http_method, @api_method, { name: @name, pause: 1 }, (error, result) =>
@@ -640,6 +625,14 @@ class Crawlbot
 	#
 	# @param callback [Function] Callback function (optional)
 	#
+	# @example Basic usage
+	#   crawler = client.crawlbot 'my-crawler'
+	#   crawler.resume (error, result) ->
+	#     if error?
+	#       console.error error
+	#     else
+	#       console.log result
+	#
 	resume: (callback) =>
 		@api.request @http_method, @api_method, { name: @name, pause: 0 }, (error, result) =>
 			if callback?
@@ -648,6 +641,14 @@ class Crawlbot
 	# Removes all crawled data while maintaining crawl settings
 	#
 	# @param callback [Function] Callback function (optional)
+	#
+	# @example Basic usage
+	#   crawler = client.crawlbot 'my-crawler'
+	#   crawler.restart (error, result) ->
+	#     if error?
+	#       console.error error
+	#     else
+	#       console.log result
 	#
 	restart: (callback) =>
 		@api.request @http_method, @api_method, { name: @name, restart: 1 }, (error, result) =>
@@ -658,6 +659,14 @@ class Crawlbot
 	#
 	# @param callback [Function] Callback function (optional)
 	#
+	# @example Basic usage
+	#   crawler = client.crawlbot 'my-crawler'
+	#   crawler.delete (error, result) ->
+	#     if error?
+	#       console.error error
+	#     else
+	#       console.log result
+	#
 	delete: (callback) =>
 		@api.request @http_method, @api_method, { name: @name, 'delete': 1 }, (error, result) =>
 			if callback?
@@ -666,6 +675,14 @@ class Crawlbot
 	# Returns crawlbot job data
 	#
 	# @param callback [Function] Callback function (optional)
+	#
+	# @example Basic usage
+	#   crawler = client.crawlbot 'my-crawler'
+	#   crawler.data (error, result) ->
+	#     if error?
+	#       console.error error
+	#     else
+	#       console.log result.data
 	#
 	data: (callback) =>
 		urls = []
@@ -693,16 +710,25 @@ class Crawlbot
 	#
 	# @param callback [Function] Callback function (optional)
 	#
+	# @example Basic usage
+	#   crawler = client.crawlbot 'my-crawler'
+	#   crawler.status (error, result) ->
+	#     if error?
+	#       console.error error
+	#     else
+	#       console.log result
+	#
 	status: (callback) =>
 		@api.request @http_method, @api_method, { name: @name }, (error, result) =>
 			if callback?
 				callback error, result
 
-# DiffBot API class
+# Client class
 #
 # Provides basic API calls support which could be used for non-implemented functions
 #
 # @example Basic usage
+#   {Client} = require 'diffbot-coffee'
 #   api = new Client '<your_developer_token>'
 #
 class Client
@@ -716,58 +742,194 @@ class Client
 		@apiHost = @host + '/v' + @version + '/'
 		@r = request.defaults {}
 
-	# Article API constructor
+	# Article constructor
 	#
 	# @param url [String] article URL to process
 	# @param fields [Array] used to control which fields are returned by the API (optional)
 	# @param timeout [Number] set a value in milliseconds to terminate the response (optional)
+	# @return [Article] Article instance
+	#
+	# @example Basic usage
+	#   client = new Client '<your_developer_token'
+	#   article = client.article 'http://domain.com'
+	#   article.load (error, result) ->
+	#     if !error?
+	#       console.log result
+	#
+	# @example With optional parameters by simple way
+	#   client = new Client '<your_developer_token'
+	#   article = client.article 'http://domain.com', ['title', 'links'], 5000
+	#   article.load (error, result) ->
+	#     if !error?
+	#       console.log result
+	#
+	# @example With optional parameters by flexible way that allows to skip parameters
+	#   client = new Client '<your_developer_token'
+	#   article = client.article 
+	#                   url: 'http://domain.com'
+	#                   timeout: 5000
+	#   article.load (error, result) ->
+	#     if !error?
+	#       console.log result
 	#
 	article: (url, fields, timeout) =>
 		return new Article @, url, fields, timeout
 
-	# Frontpage API constructor
+	# Frontpage constructor
 	#
 	# @param url [String] Frontpage URL from which to extract items
 	# @param timeout [Number] Specify a value in milliseconds to override the default API timeout of 5000ms (optional)
 	# @param format [String] Format the response output in `xml` (default) or `json` (optional)	
 	# @param all [Integer] Returns all content from page, including navigation and similar links that the Diffbot visual processing engine considers less important / non-core. (optional)	
+	# @return [Frontpage] Frontpage instance
+	#
+	# @example Basic usage
+	#   client = new Client '<your_developer_token'
+	#   frontpage = client.frontpage 'http://domain.com'
+	#   frontpage.load (error, result) ->
+	#     if !error?
+	#       console.log result
+	#
+	# @example With optional parameters by simple way
+	#   client = new Client '<your_developer_token'
+	#   frontpage = client.article 'http://domain.com', 'json', 1
+	#   frontpage.load (error, result) ->
+	#     if !error?
+	#       console.log result
+	#
+	# @example With optional parameters by flexible way that allows to skip parameters
+	#   client = new Client '<your_developer_token'
+	#   frontpage = client.frontpage 
+	#                   url: 'http://domain.com'
+	#                   all: 1
+	#   frontpage.load (error, result) ->
+	#     if !error?
+	#       console.log result
 	#
 	frontpage: (url, timeout, format, all) =>
 		return new Frontpage @, url, timeout, format, all
 
-	# Page Classifier API constructor
+	# PageClassifier constructor
 	#
 	# @param url [String] Product URL to process
 	# @param mode [String] By default the Page Classifier API will fully extract pages that match an existing Diffbot Automatic API. Set mode to a specific page-type (e.g., `article`) to extract content only from that particular page-type. All others will simply return the page classification information.
 	# @param fields [Array] Used to control which fields are returned by the API (optional)
 	# @param stats [Number] Returns statistics on page classification and extraction, including an array of individual page-types and the Diffbot-determined score (likelihood) for each type.
+	# @return [PageClassifier] PageClassifier instance
+	#
+	# @example Basic usage
+	#   client = new Client '<your_developer_token'
+	#   pc = client.pageclassifier 'http://domain.com'
+	#   pc.load (error, result) ->
+	#     if !error?
+	#       console.log result
+	#
+	# @example With optional parameters by simple way
+	#   client = new Client '<your_developer_token'
+	#   pc = client.pageclassifier 'http://domain.com', 'article', ['title'], 1
+	#   pc.load (error, result) ->
+	#     if !error?
+	#       console.log result
+	#
+	# @example With optional parameters by flexible way that allows to skip parameters
+	#   client = new Client '<your_developer_token'
+	#   pc = client.pageclassifier
+	#                   url: 'http://domain.com'
+	#                   mode: 'article'
+	#                   stats: 1
+	#   pc.load (error, result) ->
+	#     if !error?
+	#       console.log result
 	#
 	pageclassifier: (url, mode, fields, stats) =>
 		return new PageClassifier @, url, mode, fields, stats
 
-	# Image API constructor
+	# Image constructor
 	#
 	# @param url [String] Page URL from which to extract items
 	# @param fields [Array] Used to control which fields are returned by the API.
 	# @param timeout [Number] Set a value in milliseconds to terminate the response. By default the Image API has no timeout.
+	# @return [Image] Image instance
+	#
+	# @example Basic usage
+	#   client = new Client '<your_developer_token'
+	#   image = client.image 'http://domain.com'
+	#   image.load (error, result) ->
+	#     if !error?
+	#       console.log result
+	#
+	# @example With optional parameters by simple way
+	#   client = new Client '<your_developer_token'
+	#   image = client.image 'http://domain.com', ['title'], 5000
+	#   image.load (error, result) ->
+	#     if !error?
+	#       console.log result
+	#
+	# @example With optional parameters by flexible way that allows to skip parameters
+	#   client = new Client '<your_developer_token'
+	#   image = client.image
+	#                   url: 'http://domain.com'
+	#                   timeout: 5000
+	#   image.load (error, result) ->
+	#     if !error?
+	#       console.log result
 	#
 	image: (url, fields, timeout) =>
 		return new Image @, url, fields, timeout
 
-	# Product API constructor
+	# Product constructor
 	#
 	# @param url [String] Product URL to process
 	# @param fields [Array] Used to control which fields are returned by the API (optional)
-	# @param timeout [String] Set a value in milliseconds to terminate the response. By default the Product API has no timeout. (optional)
+	# @param timeout [Number] Set a value in milliseconds to terminate the response. By default the Product API has no timeout. (optional)
+	# @return [Product] Product instance
+	#
+	# @example Basic usage
+	#   client = new Client '<your_developer_token'
+	#   product = client.product 'http://domain.com'
+	#   product.load (error, result) ->
+	#     if !error?
+	#       console.log result
+	#
+	# @example With optional parameters by simple way
+	#   client = new Client '<your_developer_token'
+	#   product = client.product 'http://domain.com', ['title'], 5000
+	#   product.load (error, result) ->
+	#     if !error?
+	#       console.log result
+	#
+	# @example With optional parameters by flexible way that allows to skip parameters
+	#   client = new Client '<your_developer_token'
+	#   product = client.product
+	#                   url: 'http://domain.com'
+	#                   timeout: 5000
+	#   product.load (error, result) ->
+	#     if !error?
+	#       console.log result
 	#
 	product: (url, fields, timeout) =>
 		return new Product @, url, fields, timeout
 
-	# Custom API constructor
+	# Custom constructor
 	#
 	# @param apiMethod [String] Name of custom API you've created in the [Custom API Toolkit](http://www.diffbot.com/dev/customize)
 	# @param url [String] URL to process	
 	# @param timeout [String] Specify a value in milliseconds (e.g., 15000) to override the default API timeout of 5000ms.
+	# @return [Custom] Custom instance
+	#
+	# @example Basic usage
+	#   client = new Client '<your_developer_token'
+	#   custom = client.custom 'my-custom-method', http://domain.com'
+	#   custom.load (error, result) ->
+	#     if !error?
+	#       console.log result
+	#
+	# @example With optional parameter
+	#   client = new Client '<your_developer_token'
+	#   custom = custom.image 'my-custom-method', http://domain.com', 5000
+	#   custom.load (error, result) ->
+	#     if !error?
+	#       console.log result
 	#
 	custom: (apiMethod, url, timeout) =>
 		return new Custom @, apiMethod, url, timeout
@@ -782,6 +944,31 @@ class Client
 	# @param repeat [Number] Specify the number of days as a floating-point (e.g. 7.0) to repeat this job. By default bulk jobs will not be repeated. (optional)
 	# @param maxRounds [Number] Specify the maximum number of repeats. Use maxRounds=-1 to continually repeat. (optional)
 	# @param pageProcessPattern [Array] Enter strings array to limit pages processed to those whose HTML contains any of the content strings. If a page does not contain at least one of the strings, it will be ignored. (optional)
+	# @return [Bulk] Bulk instance
+	#
+	# @example Basic usage
+	#   client = new Client '<your_developer_token'
+	#   bulk = client.bulk 'my-bulk', ['http://domain.com', 'http://foo.com'], client.article('', ['title', 'links']).url
+	#   bulk.create (error, result) ->
+	#     if !error?
+	#       console.log result
+	#
+	# @example With optional parameters by simple way
+	#   client = new Client '<your_developer_token'
+	#   bulk = client.bulk 'my-bulk', ['http://domain.com', 'http://foo.com'], client.article('', ['title', 'links']).url, 'admin@domain.com'
+	#   bulk.create (error, result) ->
+	#     if !error?
+	#       console.log result
+	#
+	# @example With optional parameters by flexible way that allows to skip parameters
+	#   client = new Client '<your_developer_token'
+	#   bulk = client.bulk 'my-bulk',
+	#                   urls: ['http://domain.com', 'http://foo.com']
+	#                   apiUrl: client.article('', ['title', 'links']).url
+	#                   repeat: 5
+	#   bulk.load (error, result) ->
+	#     if !error?
+	#       console.log result
 	#
 	bulk: (name, urls, apiUrl, notifyEmail, notifyWebHook, repeat, maxRounds, pageProcessPattern) =>
 		return new Bulk @, name, urls, apiUrl, notifyEmail, notifyWebHook, repeat, maxRounds, pageProcessPattern
@@ -805,6 +992,31 @@ class Client
 	# @param repeat [Number] Specify the number of days as a floating-point (e.g. `7.0`) to repeat this crawl. By default crawls will not be repeated. (optional)
 	# @param onlyProcessIfNew [Number] By default repeat crawls will only process new (previously unprocessed) pages. Set to 0 (`onlyProcessIfNew=0`) to process all content on repeat crawls. (optional)
 	# @param maxRounds [Number] Specify the maximum number of crawl repeats. Use `maxRounds=-1` to continually repeat. (optional)
+	# @return [Crawlbot] Crawlbot instance
+	#
+	# @example Basic usage
+	#   client = new Client '<your_developer_token'
+	#   crawler = client.crawlbot 'my-crawler', ['http://domain.com', 'http://foo.com'], client.article('', ['title', 'links']).url
+	#   crawler.create (error, result) ->
+	#     if !error?
+	#       console.log result
+	#
+	# @example With optional parameters by simple way
+	#   client = new Client '<your_developer_token'
+	#   crawler = client.crawlbot 'my-crawler', ['http://domain.com', 'http://foo.com'], client.article('', ['title', 'links']).url, 'admin@domain.com'
+	#   crawler.create (error, result) ->
+	#     if !error?
+	#       console.log result
+	#
+	# @example With optional parameters by flexible way that allows to skip parameters
+	#   client = new Client '<your_developer_token'
+	#   crawler = client.crawlbot 'my-crawler',
+	#                   seeds: ['http://domain.com', 'http://foo.com']
+	#                   apiUrl: client.article('', ['title', 'links']).url
+	#                   maxToCrawl: 500
+	#   crawler.load (error, result) ->
+	#     if !error?
+	#       console.log result
 	#
 	crawlbot: (name, seeds, apiUrl, urlCrawlPattern, urlCrawlRegEx, urlProcessPattern, urlProcessRegEx, pageProcessPattern, maxToCrawl, maxToProcess, restrictDomain, notifyEmail, notifyWebHook, crawlDelay, repeat, onlyProcessIfNew, maxRounds) =>
 		return new Crawlbot @, name, seeds, apiUrl, urlCrawlPattern, urlCrawlRegEx, urlProcessPattern, urlProcessRegEx, pageProcessPattern, maxToCrawl, maxToProcess, restrictDomain, notifyEmail, notifyWebHook, crawlDelay, repeat, onlyProcessIfNew, maxRounds
@@ -817,8 +1029,10 @@ class Client
 	# @param callback [Function] callback function
 	#
 	# @example Basic call
-	#   api.request 'get', 'article', { url: 'http://diffbot.com' }, (result) ->
-	#     callback.log result
+	#   client = new Client '<your_developer_token'
+	#   client.request 'get', 'article', { url: 'http://diffbot.com' }, (error, result) ->
+	#     if !error?
+	#       callback.log result
 	#
 	request: (httpMethod, apiMethod, data = {}, callback) =>
 		data['token'] = @token

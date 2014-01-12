@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset='UTF-8'>
+  <title>CoffeeScript API Documentation</title>
+  <script src='../javascript/application.js'></script>
+  <script src='../javascript/search.js'></script>
+  <link rel='stylesheet' href='../stylesheets/application.css' type='text/css'>
+</head>
+  <body>
+    <div id='base' data-path='../'></div>
+<div id='header'>
+  <div id='menu'>
+    <a href='../extra/README.md.html' title='Diffbot-coffee'>
+      Diffbot-coffee
+    </a>
+    &raquo;
+    <a href='../alphabetical_index.html' title='Index'>
+      Index
+    </a>
+    &raquo;
+    <span class='title'>Client</span>
+  </div>
+</div>
+    <div id='content'>
+      <h1>
+        Class:
+        Client
+      </h1>
+      <table class='box'>
+        <tr>
+          <td>Defined in:</td>
+          <td>src\api.coffee</td>
+        </tr>
+      </table>
+      <h2>Overview</h2>
+      <div class='docstring'>
+  <p>Client class</p><p>Provides basic API calls support which could be used for non-implemented functions</p>
+  <div class='examples'>
+    <h3>Examples:</h3>
+    <h4>
+      Basic usage
+    </h4>
+    <pre><code class='coffeescript'>{Client} = require &#39;diffbot-coffee&#39;
+api = new Client &#39;&lt;your_developer_token&gt;&#39;</code></pre>
+  </div>
+</div>
+<div class='tags'>
+</div>
+      <h2>Instance Method Summary</h2>
+      <ul class='summary'>
+  <li>
+    <span class='signature'>
+      <a href='#article-dynamic'>
+        #
+(Article)
+<b>article</b><span>(url, fields, timeout)</span>
+      </a>
+    </span>
+    <span class='bound note title'>Bound</span>
+    <span class='desc'>
+      Article constructor 
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#frontpage-dynamic'>
+        #
+(Frontpage)
+<b>frontpage</b><span>(url, timeout, format, all)</span>
+      </a>
+    </span>
+    <span class='bound note title'>Bound</span>
+    <span class='desc'>
+      Frontpage constructor 
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#pageclassifier-dynamic'>
+        #
+(PageClassifier)
+<b>pageclassifier</b><span>(url, mode, fields, stats)</span>
+      </a>
+    </span>
+    <span class='bound note title'>Bound</span>
+    <span class='desc'>
+      PageClassifier constructor 
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#image-dynamic'>
+        #
+(Image)
+<b>image</b><span>(url, fields, timeout)</span>
+      </a>
+    </span>
+    <span class='bound note title'>Bound</span>
+    <span class='desc'>
+      Image constructor 
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#product-dynamic'>
+        #
+(Product)
+<b>product</b><span>(url, fields, timeout)</span>
+      </a>
+    </span>
+    <span class='bound note title'>Bound</span>
+    <span class='desc'>
+      Product constructor 
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#custom-dynamic'>
+        #
+(Custom)
+<b>custom</b><span>(apiMethod, url, timeout)</span>
+      </a>
+    </span>
+    <span class='bound note title'>Bound</span>
+    <span class='desc'>
+      Custom constructor 
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#bulk-dynamic'>
+        #
+(Bulk)
+<b>bulk</b><span>(name, urls, apiUrl, notifyEmail, notifyWebHook, repeat, maxRounds, pageProcessPattern)</span>
+      </a>
+    </span>
+    <span class='bound note title'>Bound</span>
+    <span class='desc'>
+      Bulk job constructor 
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#crawlbot-dynamic'>
+        #
+(Crawlbot)
+<b>crawlbot</b><span>(name, seeds, apiUrl, urlCrawlPattern, urlCrawlRegEx, urlProcessPattern, urlProcessRegEx, pageProcessPattern, maxToCrawl, maxToProcess, restrictDomain, notifyEmail, notifyWebHook, crawlDelay, repeat, onlyProcessIfNew, maxRounds)</span>
+      </a>
+    </span>
+    <span class='bound note title'>Bound</span>
+    <span class='desc'>
+      Crawlbot constructor 
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#request-dynamic'>
+        #
+(void)
+<b>request</b><span>(httpMethod, apiMethod, data = {}, callback)</span>
+      </a>
+    </span>
+    <span class='bound note title'>Bound</span>
+    <span class='desc'>
+      Method for raw API calls 
+    </span>
+  </li>
+</ul>
+      <h2>Constructor Details</h2>
+      <div class='methods'>
+  <div class='method_details'>
+    <p class='signature' id='constructor-dynamic'>
+      #
+(void)
+<b>constructor</b><span>(token, host = &#39;http:&#47;&#47;api.diffbot.com&#39;, version = 2)</span>
+      <br>
+    </p>
+    <div class='docstring'>
+  <p>API client constructor</p>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>token</span>
+      <span class='type'>
+        (<tt>String</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>developer token </span>
+    </li>
+    <li>
+      <span class='name'>host</span>
+      <span class='type'>
+        (<tt>String</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>API host URL (optional) </span>
+    </li>
+    <li>
+      <span class='name'>version</span>
+      <span class='type'>
+        (<tt>Number</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>API version (optional) </span>
+    </li>
+  </ul>
+</div>
+  </div>
+</div>
+      <h2>Instance Method Details</h2>
+      <div class='methods'>
+  <div class='method_details'>
+    <p class='signature' id='article-dynamic'>
+      #
+(Article)
+<b>article</b><span>(url, fields, timeout)</span>
+      <span class='bound note'>Bound</span>
+      <br>
+    </p>
+    <div class='docstring'>
+  <p>Article constructor</p>
+  <div class='examples'>
+    <h3>Examples:</h3>
+    <h4>
+      Basic usage
+    </h4>
+    <pre><code class='coffeescript'>client = new Client &#39;&lt;your_developer_token&#39;
+article = client.article &#39;http:&#47;&#47;domain.com&#39;
+article.load (error, result) -&gt;
+  if !error?
+    console.log result</code></pre>
+    <h4>
+      With optional parameters by simple way
+    </h4>
+    <pre><code class='coffeescript'>client = new Client &#39;&lt;your_developer_token&#39;
+article = client.article &#39;http:&#47;&#47;domain.com&#39;, [&#39;title&#39;, &#39;links&#39;], 5000
+article.load (error, result) -&gt;
+  if !error?
+    console.log result</code></pre>
+    <h4>
+      With optional parameters by flexible way that allows to skip parameters
+    </h4>
+    <pre><code class='coffeescript'>client = new Client &#39;&lt;your_developer_token&#39;
+article = client.article 
+                url: &#39;http:&#47;&#47;domain.com&#39;
+                timeout: 5000
+article.load (error, result) -&gt;
+  if !error?
+    console.log result</code></pre>
+  </div>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>url</span>
+      <span class='type'>
+        (<tt>String</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>article URL to process </span>
+    </li>
+    <li>
+      <span class='name'>fields</span>
+      <span class='type'>
+        (<tt>Array</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>used to control which fields are returned by the API (optional) </span>
+    </li>
+    <li>
+      <span class='name'>timeout</span>
+      <span class='type'>
+        (<tt>Number</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>set a value in milliseconds to terminate the response (optional) </span>
+    </li>
+  </ul>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span>
+      (<tt>Article</tt>)
+      &mdash;
+      <span class='desc'>Article instance </span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='frontpage-dynamic'>
+      #
+(Frontpage)
+<b>frontpage</b><span>(url, timeout, format, all)</span>
+      <span class='bound note'>Bound</span>
+      <br>
+    </p>
+    <div class='docstring'>
+  <p>Frontpage constructor</p>
+  <div class='examples'>
+    <h3>Examples:</h3>
+    <h4>
+      Basic usage
+    </h4>
+    <pre><code class='coffeescript'>client = new Client &#39;&lt;your_developer_token&#39;
+frontpage = client.frontpage &#39;http:&#47;&#47;domain.com&#39;
+frontpage.load (error, result) -&gt;
+  if !error?
+    console.log result</code></pre>
+    <h4>
+      With optional parameters by simple way
+    </h4>
+    <pre><code class='coffeescript'>client = new Client &#39;&lt;your_developer_token&#39;
+frontpage = client.article &#39;http:&#47;&#47;domain.com&#39;, &#39;json&#39;, 1
+frontpage.load (error, result) -&gt;
+  if !error?
+    console.log result</code></pre>
+    <h4>
+      With optional parameters by flexible way that allows to skip parameters
+    </h4>
+    <pre><code class='coffeescript'>client = new Client &#39;&lt;your_developer_token&#39;
+frontpage = client.frontpage 
+                url: &#39;http:&#47;&#47;domain.com&#39;
+                all: 1
+frontpage.load (error, result) -&gt;
+  if !error?
+    console.log result</code></pre>
+  </div>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>url</span>
+      <span class='type'>
+        (<tt>String</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>Frontpage URL from which to extract items </span>
+    </li>
+    <li>
+      <span class='name'>timeout</span>
+      <span class='type'>
+        (<tt>Number</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>Specify a value in milliseconds to override the default API timeout of 5000ms (optional) </span>
+    </li>
+    <li>
+      <span class='name'>format</span>
+      <span class='type'>
+        (<tt>String</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>Format the response output in <code>xml</code> (default) or <code>json</code> (optional)     </span>
+    </li>
+    <li>
+      <span class='name'>all</span>
+      <span class='type'>
+        (<tt>Integer</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>Returns all content from page, including navigation and similar links that the Diffbot visual processing engine considers less important / non-core. (optional)     </span>
+    </li>
+  </ul>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span>
+      (<tt>Frontpage</tt>)
+      &mdash;
+      <span class='desc'>Frontpage instance </span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='pageclassifier-dynamic'>
+      #
+(PageClassifier)
+<b>pageclassifier</b><span>(url, mode, fields, stats)</span>
+      <span class='bound note'>Bound</span>
+      <br>
+    </p>
+    <div class='docstring'>
+  <p>PageClassifier constructor</p>
+  <div class='examples'>
+    <h3>Examples:</h3>
+    <h4>
+      Basic usage
+    </h4>
+    <pre><code class='coffeescript'>client = new Client &#39;&lt;your_developer_token&#39;
+pc = client.pageclassifier &#39;http:&#47;&#47;domain.com&#39;
+pc.load (error, result) -&gt;
+  if !error?
+    console.log result</code></pre>
+    <h4>
+      With optional parameters by simple way
+    </h4>
+    <pre><code class='coffeescript'>client = new Client &#39;&lt;your_developer_token&#39;
+pc = client.pageclassifier &#39;http:&#47;&#47;domain.com&#39;, &#39;article&#39;, [&#39;title&#39;], 1
+pc.load (error, result) -&gt;
+  if !error?
+    console.log result</code></pre>
+    <h4>
+      With optional parameters by flexible way that allows to skip parameters
+    </h4>
+    <pre><code class='coffeescript'>client = new Client &#39;&lt;your_developer_token&#39;
+pc = client.pageclassifier
+                url: &#39;http:&#47;&#47;domain.com&#39;
+                mode: &#39;article&#39;
+                stats: 1
+pc.load (error, result) -&gt;
+  if !error?
+    console.log result</code></pre>
+  </div>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>url</span>
+      <span class='type'>
+        (<tt>String</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>Product URL to process </span>
+    </li>
+    <li>
+      <span class='name'>mode</span>
+      <span class='type'>
+        (<tt>String</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>By default the Page Classifier API will fully extract pages that match an existing Diffbot Automatic API. Set mode to a specific page-type (e.g., <code>article</code>) to extract content only from that particular page-type. All others will simply return the page classification information. </span>
+    </li>
+    <li>
+      <span class='name'>fields</span>
+      <span class='type'>
+        (<tt>Array</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>Used to control which fields are returned by the API (optional) </span>
+    </li>
+    <li>
+      <span class='name'>stats</span>
+      <span class='type'>
+        (<tt>Number</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>Returns statistics on page classification and extraction, including an array of individual page-types and the Diffbot-determined score (likelihood) for each type. </span>
+    </li>
+  </ul>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span>
+      (<tt>PageClassifier</tt>)
+      &mdash;
+      <span class='desc'>PageClassifier instance </span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='image-dynamic'>
+      #
+(Image)
+<b>image</b><span>(url, fields, timeout)</span>
+      <span class='bound note'>Bound</span>
+      <br>
+    </p>
+    <div class='docstring'>
+  <p>Image constructor</p>
+  <div class='examples'>
+    <h3>Examples:</h3>
+    <h4>
+      Basic usage
+    </h4>
+    <pre><code class='coffeescript'>client = new Client &#39;&lt;your_developer_token&#39;
+image = client.image &#39;http:&#47;&#47;domain.com&#39;
+image.load (error, result) -&gt;
+  if !error?
+    console.log result</code></pre>
+    <h4>
+      With optional parameters by simple way
+    </h4>
+    <pre><code class='coffeescript'>client = new Client &#39;&lt;your_developer_token&#39;
+image = client.image &#39;http:&#47;&#47;domain.com&#39;, [&#39;title&#39;], 5000
+image.load (error, result) -&gt;
+  if !error?
+    console.log result</code></pre>
+    <h4>
+      With optional parameters by flexible way that allows to skip parameters
+    </h4>
+    <pre><code class='coffeescript'>client = new Client &#39;&lt;your_developer_token&#39;
+image = client.image
+                url: &#39;http:&#47;&#47;domain.com&#39;
+                timeout: 5000
+image.load (error, result) -&gt;
+  if !error?
+    console.log result</code></pre>
+  </div>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>url</span>
+      <span class='type'>
+        (<tt>String</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>Page URL from which to extract items </span>
+    </li>
+    <li>
+      <span class='name'>fields</span>
+      <span class='type'>
+        (<tt>Array</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>Used to control which fields are returned by the API. </span>
+    </li>
+    <li>
+      <span class='name'>timeout</span>
+      <span class='type'>
+        (<tt>Number</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>Set a value in milliseconds to terminate the response. By default the Image API has no timeout. </span>
+    </li>
+  </ul>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span>
+      (<tt>Image</tt>)
+      &mdash;
+      <span class='desc'>Image instance </span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='product-dynamic'>
+      #
+(Product)
+<b>product</b><span>(url, fields, timeout)</span>
+      <span class='bound note'>Bound</span>
+      <br>
+    </p>
+    <div class='docstring'>
+  <p>Product constructor</p>
+  <div class='examples'>
+    <h3>Examples:</h3>
+    <h4>
+      Basic usage
+    </h4>
+    <pre><code class='coffeescript'>client = new Client &#39;&lt;your_developer_token&#39;
+product = client.product &#39;http:&#47;&#47;domain.com&#39;
+product.load (error, result) -&gt;
+  if !error?
+    console.log result</code></pre>
+    <h4>
+      With optional parameters by simple way
+    </h4>
+    <pre><code class='coffeescript'>client = new Client &#39;&lt;your_developer_token&#39;
+product = client.product &#39;http:&#47;&#47;domain.com&#39;, [&#39;title&#39;], 5000
+product.load (error, result) -&gt;
+  if !error?
+    console.log result</code></pre>
+    <h4>
+      With optional parameters by flexible way that allows to skip parameters
+    </h4>
+    <pre><code class='coffeescript'>client = new Client &#39;&lt;your_developer_token&#39;
+product = client.product
+                url: &#39;http:&#47;&#47;domain.com&#39;
+                timeout: 5000
+product.load (error, result) -&gt;
+  if !error?
+    console.log result</code></pre>
+  </div>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>url</span>
+      <span class='type'>
+        (<tt>String</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>Product URL to process </span>
+    </li>
+    <li>
+      <span class='name'>fields</span>
+      <span class='type'>
+        (<tt>Array</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>Used to control which fields are returned by the API (optional) </span>
+    </li>
+    <li>
+      <span class='name'>timeout</span>
+      <span class='type'>
+        (<tt>Number</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>Set a value in milliseconds to terminate the response. By default the Product API has no timeout. (optional) </span>
+    </li>
+  </ul>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span>
+      (<tt>Product</tt>)
+      &mdash;
+      <span class='desc'>Product instance </span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='custom-dynamic'>
+      #
+(Custom)
+<b>custom</b><span>(apiMethod, url, timeout)</span>
+      <span class='bound note'>Bound</span>
+      <br>
+    </p>
+    <div class='docstring'>
+  <p>Custom constructor</p>
+  <div class='examples'>
+    <h3>Examples:</h3>
+    <h4>
+      Basic usage
+    </h4>
+    <pre><code class='coffeescript'>client = new Client &#39;&lt;your_developer_token&#39;
+custom = client.custom &#39;my-custom-method&#39;, http:&#47;&#47;domain.com&#39;
+custom.load (error, result) -&gt;
+  if !error?
+    console.log result</code></pre>
+    <h4>
+      With optional parameter
+    </h4>
+    <pre><code class='coffeescript'>client = new Client &#39;&lt;your_developer_token&#39;
+custom = custom.image &#39;my-custom-method&#39;, http:&#47;&#47;domain.com&#39;, 5000
+custom.load (error, result) -&gt;
+  if !error?
+    console.log result</code></pre>
+  </div>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>apiMethod</span>
+      <span class='type'>
+        (<tt>String</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>Name of custom API you&#39;ve created in the <a href="http://www.diffbot.com/dev/customize">Custom API Toolkit</a> </span>
+    </li>
+    <li>
+      <span class='name'>url</span>
+      <span class='type'>
+        (<tt>String</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>URL to process     </span>
+    </li>
+    <li>
+      <span class='name'>timeout</span>
+      <span class='type'>
+        (<tt>String</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>Specify a value in milliseconds (e.g., 15000) to override the default API timeout of 5000ms. </span>
+    </li>
+  </ul>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span>
+      (<tt>Custom</tt>)
+      &mdash;
+      <span class='desc'>Custom instance </span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='bulk-dynamic'>
+      #
+(Bulk)
+<b>bulk</b><span>(name, urls, apiUrl, notifyEmail, notifyWebHook, repeat, maxRounds, pageProcessPattern)</span>
+      <span class='bound note'>Bound</span>
+      <br>
+    </p>
+    <div class='docstring'>
+  <p>Bulk job constructor</p>
+  <div class='examples'>
+    <h3>Examples:</h3>
+    <h4>
+      Basic usage
+    </h4>
+    <pre><code class='coffeescript'>client = new Client &#39;&lt;your_developer_token&#39;
+bulk = client.bulk &#39;my-bulk&#39;, [&#39;http:&#47;&#47;domain.com&#39;, &#39;http:&#47;&#47;foo.com&#39;], client.article(&#39;&#39;, [&#39;title&#39;, &#39;links&#39;]).url
+bulk.create (error, result) -&gt;
+  if !error?
+    console.log result</code></pre>
+    <h4>
+      With optional parameters by simple way
+    </h4>
+    <pre><code class='coffeescript'>client = new Client &#39;&lt;your_developer_token&#39;
+bulk = client.bulk &#39;my-bulk&#39;, [&#39;http:&#47;&#47;domain.com&#39;, &#39;http:&#47;&#47;foo.com&#39;], client.article(&#39;&#39;, [&#39;title&#39;, &#39;links&#39;]).url, &#39;admin@domain.com&#39;
+bulk.create (error, result) -&gt;
+  if !error?
+    console.log result</code></pre>
+    <h4>
+      With optional parameters by flexible way that allows to skip parameters
+    </h4>
+    <pre><code class='coffeescript'>client = new Client &#39;&lt;your_developer_token&#39;
+bulk = client.bulk &#39;my-bulk&#39;,
+                urls: [&#39;http:&#47;&#47;domain.com&#39;, &#39;http:&#47;&#47;foo.com&#39;]
+                apiUrl: client.article(&#39;&#39;, [&#39;title&#39;, &#39;links&#39;]).url
+                repeat: 5
+bulk.load (error, result) -&gt;
+  if !error?
+    console.log result</code></pre>
+  </div>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>name</span>
+      <span class='type'>
+        (<tt>String</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>Job name. This should be a unique identifier and will be used to modify your bulk job and retrieve its output. </span>
+    </li>
+    <li>
+      <span class='name'>urls</span>
+      <span class='type'>
+        (<tt>Array&lt;String&gt;</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>Array of URLs to process. (optional) </span>
+    </li>
+    <li>
+      <span class='name'>apiUrl</span>
+      <span class='type'>
+        (<tt>String</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>The full Diffbot API to be used for each URL. For instance, to process each URL via the article API, supply <a href="http://api.diffbot.com/v2/article">http://api.diffbot.com/v2/article</a>. You may also include API parameters, e.g. <a href="http://api.diffbot.com/v2/article?fields=meta,tags">http://api.diffbot.com/v2/article?fields=meta,tags</a>. (optional) </span>
+    </li>
+    <li>
+      <span class='name'>notifyEmail</span>
+      <span class='type'>
+        (<tt>String</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>Send a message to this email address when the bulk job completes. (optional) </span>
+    </li>
+    <li>
+      <span class='name'>notifyWebHook</span>
+      <span class='type'>
+        (<tt>String</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>Pass a URL to be notified when the bulk job completes. You will receive a POST with the full JSON response in the POST body. (optional) </span>
+    </li>
+    <li>
+      <span class='name'>repeat</span>
+      <span class='type'>
+        (<tt>Number</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>Specify the number of days as a floating-point (e.g. 7.0) to repeat this job. By default bulk jobs will not be repeated. (optional) </span>
+    </li>
+    <li>
+      <span class='name'>maxRounds</span>
+      <span class='type'>
+        (<tt>Number</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>Specify the maximum number of repeats. Use maxRounds=-1 to continually repeat. (optional) </span>
+    </li>
+    <li>
+      <span class='name'>pageProcessPattern</span>
+      <span class='type'>
+        (<tt>Array</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>Enter strings array to limit pages processed to those whose HTML contains any of the content strings. If a page does not contain at least one of the strings, it will be ignored. (optional) </span>
+    </li>
+  </ul>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span>
+      (<tt>Bulk</tt>)
+      &mdash;
+      <span class='desc'>Bulk instance </span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='crawlbot-dynamic'>
+      #
+(Crawlbot)
+<b>crawlbot</b><span>(name, seeds, apiUrl, urlCrawlPattern, urlCrawlRegEx, urlProcessPattern, urlProcessRegEx, pageProcessPattern, maxToCrawl, maxToProcess, restrictDomain, notifyEmail, notifyWebHook, crawlDelay, repeat, onlyProcessIfNew, maxRounds)</span>
+      <span class='bound note'>Bound</span>
+      <br>
+    </p>
+    <div class='docstring'>
+  <p>Crawlbot constructor</p>
+  <div class='examples'>
+    <h3>Examples:</h3>
+    <h4>
+      Basic usage
+    </h4>
+    <pre><code class='coffeescript'>client = new Client &#39;&lt;your_developer_token&#39;
+crawler = client.crawlbot &#39;my-crawler&#39;, [&#39;http:&#47;&#47;domain.com&#39;, &#39;http:&#47;&#47;foo.com&#39;], client.article(&#39;&#39;, [&#39;title&#39;, &#39;links&#39;]).url
+crawler.create (error, result) -&gt;
+  if !error?
+    console.log result</code></pre>
+    <h4>
+      With optional parameters by simple way
+    </h4>
+    <pre><code class='coffeescript'>client = new Client &#39;&lt;your_developer_token&#39;
+crawler = client.crawlbot &#39;my-crawler&#39;, [&#39;http:&#47;&#47;domain.com&#39;, &#39;http:&#47;&#47;foo.com&#39;], client.article(&#39;&#39;, [&#39;title&#39;, &#39;links&#39;]).url, &#39;admin@domain.com&#39;
+crawler.create (error, result) -&gt;
+  if !error?
+    console.log result</code></pre>
+    <h4>
+      With optional parameters by flexible way that allows to skip parameters
+    </h4>
+    <pre><code class='coffeescript'>client = new Client &#39;&lt;your_developer_token&#39;
+crawler = client.crawlbot &#39;my-crawler&#39;,
+                seeds: [&#39;http:&#47;&#47;domain.com&#39;, &#39;http:&#47;&#47;foo.com&#39;]
+                apiUrl: client.article(&#39;&#39;, [&#39;title&#39;, &#39;links&#39;]).url
+                maxToCrawl: 500
+crawler.load (error, result) -&gt;
+  if !error?
+    console.log result</code></pre>
+  </div>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>name</span>
+      <span class='type'>
+        (<tt>String</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>crawlbot unique name </span>
+    </li>
+    <li>
+      <span class='name'>seeds</span>
+      <span class='type'>
+        (<tt>Array</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>Seed URL(s). Must be URL encoded. By default Crawlbot will spider subdomains (e.g., a seed URL of &quot;<a href="http://www.diffbot.com">http://www.diffbot.com</a>&quot; will include URLs at &quot;<a href="http://blog.diffbot.com">http://blog.diffbot.com</a>&quot;) (optional) </span>
+    </li>
+    <li>
+      <span class='name'>apiUrl</span>
+      <span class='type'>
+        (<tt>String</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>Full Diffbot API URL through which to process pages. E.g., <code>http://api.diffbot.com/v2/article</code> to process matching links via the Article API (optional) </span>
+    </li>
+    <li>
+      <span class='name'>urlCrawlPattern</span>
+      <span class='type'>
+        (<tt>Array</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>Array of strings to limit pages crawled to those whose URLs contain any of the content strings. You can use the exclamation point to specify a negative string, e.g. <code>!product</code> to exclude URLs containing the string &quot;product.&quot; (optional) </span>
+    </li>
+    <li>
+      <span class='name'>urlCrawlRegEx</span>
+      <span class='type'>
+        (<tt>String</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>Specify a regular expression to limit pages crawled to those URLs that match your expression. This will override any <code>urlCrawlPattern</code> value. (optional) </span>
+    </li>
+    <li>
+      <span class='name'>urlProcessPattern</span>
+      <span class='type'>
+        (<tt>Array</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>Array of strings to limit pages processed to those whose URLs contain any of the content strings. You can use the exclamation point to specify a negative string, e.g. !/category to exclude URLs containing the string &quot;/category.&quot; (optional) </span>
+    </li>
+    <li>
+      <span class='name'>urlProcessRegEx</span>
+      <span class='type'>
+        (<tt>String</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>Specify a regular expression to limit pages processed to those URLs that match your expression. This will override any urlProcessPattern value. (optional) </span>
+    </li>
+    <li>
+      <span class='name'>pageProcessPattern</span>
+      <span class='type'>
+        (<tt>Array</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>Array of strings to limit pages processed to those whose HTML contains any of the content strings. (optional) </span>
+    </li>
+    <li>
+      <span class='name'>maxToCrawl</span>
+      <span class='type'>
+        (<tt>Number</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>Specify max pages to spider. (optional) </span>
+    </li>
+    <li>
+      <span class='name'>maxToProcess</span>
+      <span class='type'>
+        (<tt>Number</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>Specify max pages to process through Diffbot APIs. Default: 10,000. (optional) </span>
+    </li>
+    <li>
+      <span class='name'>restrictDomain</span>
+      <span class='type'>
+        (<tt>Number</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>By default crawls will restrict to subdomains within the seed URL domain. Specify <code>restrictDomain=0</code> to follow all links regardless of domain. (optional) </span>
+    </li>
+    <li>
+      <span class='name'>notifyEmail</span>
+      <span class='type'>
+        (<tt>String</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>Send a message to this email address when the crawl hits the <code>maxToCrawl</code> or <code>maxToProcess</code> limit, or when the crawl completes. (optional) </span>
+    </li>
+    <li>
+      <span class='name'>notifyWebHook</span>
+      <span class='type'>
+        (<tt>String</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>Pass a URL to be notified when the crawl hits the <code>maxToCrawl</code> or <code>maxToProcess</code> limit, or when the crawl completes. You will receive a POST with <code>X-Crawl-Name</code> and <code>X-Crawl-Status</code> in the headers, and the full JSON response in the POST body. (optional) </span>
+    </li>
+    <li>
+      <span class='name'>crawlDelay</span>
+      <span class='type'>
+        (<tt>Number</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>Wait this many seconds between each URL crawled from a single IP address. Specify the number of seconds as an integer or floating-point number (e.g., 0.25). (optional) </span>
+    </li>
+    <li>
+      <span class='name'>repeat</span>
+      <span class='type'>
+        (<tt>Number</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>Specify the number of days as a floating-point (e.g. <code>7.0</code>) to repeat this crawl. By default crawls will not be repeated. (optional) </span>
+    </li>
+    <li>
+      <span class='name'>onlyProcessIfNew</span>
+      <span class='type'>
+        (<tt>Number</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>By default repeat crawls will only process new (previously unprocessed) pages. Set to 0 (<code>onlyProcessIfNew=0</code>) to process all content on repeat crawls. (optional) </span>
+    </li>
+    <li>
+      <span class='name'>maxRounds</span>
+      <span class='type'>
+        (<tt>Number</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>Specify the maximum number of crawl repeats. Use <code>maxRounds=-1</code> to continually repeat. (optional) </span>
+    </li>
+  </ul>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span>
+      (<tt>Crawlbot</tt>)
+      &mdash;
+      <span class='desc'>Crawlbot instance </span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='request-dynamic'>
+      #
+(void)
+<b>request</b><span>(httpMethod, apiMethod, data = {}, callback)</span>
+      <span class='bound note'>Bound</span>
+      <br>
+    </p>
+    <div class='docstring'>
+  <p>Method for raw API calls</p>
+  <div class='examples'>
+    <h3>Examples:</h3>
+    <h4>
+      Basic call
+    </h4>
+    <pre><code class='coffeescript'>client = new Client &#39;&lt;your_developer_token&#39;
+client.request &#39;get&#39;, &#39;article&#39;, { url: &#39;http:&#47;&#47;diffbot.com&#39; }, (error, result) -&gt;
+  if !error?
+    callback.log result</code></pre>
+  </div>
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>httpMethod</span>
+      <span class='type'>
+        (<tt>String</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>HTTP method - &#39;get&#39;, &#39;post&#39;, &#39;put&#39;, etc. </span>
+    </li>
+    <li>
+      <span class='name'>apiMethod</span>
+      <span class='type'>
+        (<tt>String</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>API methods - &#39;article&#39;, &#39;frontpage&#39;, etc. </span>
+    </li>
+    <li>
+      <span class='name'>data</span>
+      <span class='type'>
+        (<tt>Object</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>API call paramerters </span>
+    </li>
+    <li>
+      <span class='name'>callback</span>
+      <span class='type'>
+        (<tt>Function</tt>)
+      </span>
+      &mdash;
+      <span class='desc'>callback function </span>
+    </li>
+  </ul>
+</div>
+  </div>
+</div>
+    </div>
+    <div id='footer'>
+  January 13, 14 02:34:22 by
+  <a href='https://github.com/coffeedoc/codo' title='CoffeeScript API documentation generator'>
+    Codo
+  </a>
+  2.0.3
+  &#10034;
+  Press H to see the keyboard shortcuts
+  &#10034;
+  <a href='http://twitter.com/netzpirat' target='_parent'>@netzpirat</a>
+  &#10034;
+  <a href='http://twitter.com/_inossidabile' target='_parent'>@_inossidabile</a>
+  &#10034;
+  <a href='https://mksoft.ch' target='_parent'>mksoft.ch</a>
+</div>
+<iframe id='search_frame'></iframe>
+<div id='fuzzySearch'>
+  <input type='text'>
+  <ol></ol>
+</div>
+<div id='help'>
+  <p>
+    Quickly fuzzy find classes, mixins, methods, file:
+  </p>
+  <ul>
+    <li>
+      <span>T</span>
+      Open fuzzy finder dialog
+    </li>
+  </ul>
+  <p>
+    Control the navigation frame:
+  </p>
+  <ul>
+    <li>
+      <span>L</span>
+      Toggle list view
+    </li>
+    <li>
+      <span>C</span>
+      Show class list
+    </li>
+    <li>
+      <span>I</span>
+      Show mixin list
+    </li>
+    <li>
+      <span>F</span>
+      Show file list
+    </li>
+    <li>
+      <span>M</span>
+      Show method list
+    </li>
+    <li>
+      <span>E</span>
+      Show extras list
+    </li>
+  </ul>
+  <p>
+    You can focus and blur the search input:
+  </p>
+  <ul>
+    <li>
+      <span>S</span>
+      Focus search input
+    </li>
+    <li>
+      <span>Esc</span>
+      Blur search input
+    </li>
+  </ul>
+</div>
+  </body>
+</html>
